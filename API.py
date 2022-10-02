@@ -30,8 +30,8 @@ def generate_image():
     index = random.randint(0, len(response["collection"]["items"])) - 1
     imagen_url = str(response["collection"]["items"][index]["links"][0]["href"])
 
-    print('Content: {content}'.format(content=imagen_url))
-    print('Style: {style}'.format(style=art_url))
+    #print('Content: {content}'.format(content=imagen_url))
+    #print('Style: {style}'.format(style=art_url))
 
     image = m.generate_image(str(random.randint(0, 999)) + ".jpg",
                              imagen_url,
