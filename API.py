@@ -10,6 +10,9 @@ m = Model()
 
 app = Flask(__name__)
 
+@app.route('/', methods=['GET'])
+def hello():
+    return "<p>oli</p>"
 
 @app.route('/generateImage', methods=['GET'])
 def generate_image():
