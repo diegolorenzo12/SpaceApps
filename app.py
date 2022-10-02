@@ -6,11 +6,6 @@ from io import BytesIO
 from Modelo import Model
 from flask import Flask, request
 
-key = os.environ["COG_SERVICE_KEY"]
-region = os.environ["COG_SERVICE_REGION"]
-endpoint = os.environ["ENDPOINT"]
-COG_endpoint = os.environ["COG_SERVICE_ENDPOINT"]
-
 m = Model()
 
 app = Flask(__name__)
@@ -51,5 +46,5 @@ def generate_image():
 
     return str(img_str)
 
-    if __name__ == "__main__":
-        app.run(debug=False)
+
+app.run(debug=False)
