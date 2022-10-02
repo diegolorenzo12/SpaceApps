@@ -12,16 +12,26 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello_world():
-    return "<p>Hello, World!</p>"
+    res_art = requests.get("https://openaccess-api.clevelandart.org/api/artworks/")
+    response_art = json.loads(res_art.text)
+
+    art_url = str(response_art["data"][random.randint(0, 999)]["images"]["web"]["url"])
+    print(art_url)
+
+    return art_url
 
 
 @app.route('/generateImage', methods=['GET'])
-async def generate_image():
+def generate_image():
     searchword = request.args.get('key', '')
     url = "https://images-api.nasa.gov/search?q=" + searchword + "&media_type=image"
 
     res = requests.get(url)
     response = json.loads(res.text)
+
+    res_art = requests.get("https://openaccess-api.clevelandart.org/api/artworks/")
+    response_art = json.loads(res_art.text)
+    art_url = str(response_art["data"][random.randint(0, 999)]["images"]["web"]["url"])
 
     if len(response["collection"]["items"]) == 0:
         searchword = "space"
@@ -32,8 +42,10 @@ async def generate_image():
     index = random.randint(0, len(response["collection"]["items"])) - 1
     imagen_url = str(response["collection"]["items"][index]["links"][0]["href"])
 
-    m = Modelo.ArtModel(imagen_url)
+    m = Modelo.ArtModel(imagen_url, art_url)
     m.download_image(m.url, "C:/Users/Usuario/Desktop/spaceapps/imagenes/", m.file_name)
+    m.download_image(m.art_url, "C:/Users/Usuario/Desktop/spaceapps/imagenes/", "Arte")
+
     m.content = m.load_file(m.content_path)
     m.style = m.load_file(m.style_path)
     m.im = m.img_preprocess(m.content_path)
@@ -42,9 +54,7 @@ async def generate_image():
     m.model = m.get_model()
     m.model.summary()
     m.model = tf.keras.applications.vgg19.VGG19(include_top=False, weights='imagenet')
-    m.best, m.best_loss, m.image = await m.run_style_transfer(m.content_path, m.style_path, epochs=2500)
-    print("oli")
-
+    m.best, m.best_loss, m.image = m.run_style_transfer(m.content_path, m.style_path, epochs=2500)
 
     with open("imagenes/1.jpg", "rb") as image2string:
         converted_string = base64.b64encode(image2string.read())

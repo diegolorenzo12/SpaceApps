@@ -143,7 +143,7 @@ class ArtModel:
 
         optimizer = tf.keras.optimizers.Adam(learning_rate=5, beta_1=0.99, epsilon=1e-1)
 
-        best_loss, self.best_img = float('inf'), None
+        best_loss, best_img = float('inf'), None
 
         loss_weights = (style_weight, content_weight)
         dictionary = {'model': model,
@@ -174,15 +174,17 @@ class ArtModel:
                 IPython.display.display_png(Image.fromarray(plot_img))
                 name = r'imagenes/' + str(image_no) + '.jpg'
                 m.save(name, 'JPEG')
+                break #dudoso
         IPython.display.clear_output(wait=True)
         return best_img, best_loss, imgs
 
-    def __init__(self, path):
+    def __init__(self, path, art_path):
         self.url = path
+        self.path = path
+        self.art_url = art_path
         self.file_name = "content"
         self.content_path = 'imagenes/content.jpg'
-        self.style_path = 'Arte.png'
-        self.path = path
+        self.style_path = 'imagenes/Arte.jpg'
         self.content = []
         self.style = []
         self.im = []

@@ -19,6 +19,8 @@ def generate_image():
     res = requests.get(url)
     response = json.loads(res.text)
 
+
+
     if len(response["collection"]["items"]) == 0:
         searchword = "space"
         url = "https://images-api.nasa.gov/search?q=" + searchword + "&media_type=image"
