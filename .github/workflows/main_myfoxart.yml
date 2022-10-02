@@ -60,4 +60,4 @@ jobs:
         with:
           app-name: 'MyFoxArt'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_CEAAB3B4E9844A408A62CCADCEE79D92 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_4A371C9F10A94D09BD6B981609AF05D0 }}
